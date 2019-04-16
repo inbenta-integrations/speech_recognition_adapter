@@ -148,4 +148,3 @@ Here is the full integration code:
     </script>
   </body>
 </html>
-```
