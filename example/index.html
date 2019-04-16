@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="description" content="Inbenta speech-to-text chatbot demo">
+    <title>Inbenta speech-to-text chatbot demo</title>
+    <link rel="icon" href="https://www.inbenta.com/favicon.ico" type="image/x-icon">
+    <!-- Import Inbenta Chatbot SDK (check last available version/integrity from https://developers.inbenta.io/chatbot/javascript-sdk/sdk-subresource-integrity) -->
+    <script type="text/javascript" src="https://sdk.inbenta.io/chatbot/SDK_VERSION/inbenta-chatbot-sdk.js" integrity="SDK_VERSION_INTEGRITY" crossorigin="anonymous"></script>
+    <!-- Import speech-to-text adapter -->
+    <script type="text/javascript" src="../src/speech-to-text-adapter.js"></script>
+    <!-- Html page styles -->
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+    <!-- Micro styles -->
+    <link rel="stylesheet" type="text/css" href="../src/styles/speech-to-text.css">
+  </head>
+  <body class="inb-demo">
+    <header class="inb-demo__header">
+    <div class="inb-demo__header__title">
+      <a href="https://www.inbenta.com" target="_blank"><img class="inb-demo__header__image" src="https://www.inbenta.com/wp-content/themes/inbenta/img/logo-inbenta.svg" alt="Inbenta"></a>
+    </div>
+    </header>
+    <main class="inb-demo__main">
+      <div class="inb-demo__main__content">
+        <h1 class="inb-demo__title">Chatbot speech-to-text demo</h1>
+      </div>
+    </main>
+    <!-- INBENTA CHATBOT SDK-->
+    <script type="text/javascript">
+
+    /*** Inbenta chatbot SDK configuration and build ***/
+
+    var inbApp = {
+      // Inbenta chatbot SDK credentials
+    	sdkAuth: {
+        inbentaKey: '<YOUR_API_KEY>',
+        domainKey: '<YOUR_DOMAIN_KEY>'
+    	},
+      // Inbenta chatbot SDK configuration
+    	sdkConfig: {
+      		chatbotId: 'speech_to_text_chatbot',
+      		environment: 'development',
+      		userType: 0,
+      		lang:'en',
+          labels: {
+            en: { 'interface-title': 'speech-to-text demo' }
+          },
+      		closeButton:{ visible: true },
+    		adapters: [],
+        html: {
+          'conversation-window-footer':
+            '<conversation-window-footer-form>' +
+              '<upload-media-button />' +
+              '<chatbot-input />' +
+              '<character-counter />' +
+              '<send-button />' +
+              '<div id="voice-recording" class="footer__form__voice"></div>' +
+            '</conversation-window-footer-form>'
+        }
+    	},
+      // Text to speech adapter conf
+    	appConfig: {
+        speechToTextConfig: {
+          voiceRecording: true,
+          voiceRecordingLang: 'en-US',
+          autoInput: true
+        }
+    	}
+    }
+
+    window.inbApp.sdkConfig.adapters.push(speechToText(inbApp.appConfig.speechToTextConfig));
+
+    window.InbentaChatbotSDK.buildWithDomainCredentials(inbApp.sdkAuth, inbApp.sdkConfig);
+
+    </script>
+  </body>
+</html>
