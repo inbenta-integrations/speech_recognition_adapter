@@ -96,8 +96,8 @@ Here is the full integration code:
     <title>Inbenta speech-to-text chatbot demo</title>
     <link rel="shortcut icon" href="#" />
     
-    <!-- Import Inbenta Chatbot SDK -->
-    <script src="https://sdk.inbenta.io/chatbot/1.24.0/inbenta-chatbot-sdk.js"></script>
+    <!-- Import the Inbenta Chatbot SDK (check the last available version [here](https://developers.inbenta.io/chatbot/javascript-sdk/sdk-subresource-integrity)) -->
+    <script src="https://sdk.inbenta.io/chatbot/SDK_VERSION/inbenta-chatbot-sdk.js"></script>
     
     <!-- Import the speech-to-text chatbot adapter -->
     <script src="./src/adapters/speech-to-text-adapter.js"></script>
