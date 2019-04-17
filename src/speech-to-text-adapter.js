@@ -19,30 +19,38 @@ var speechToText = function (speechtoTextConf) {
       document.getElementsByTagName('head')[0].appendChild(dom, document.currentScript);
     }
 
-    // Function to remove micro if not chrome
+    // Bind click function to activate micro or remove it if not chrome
     var activateMicro = function () {
+      var listenerID = arguments[0];
       var [el] = arguments[1];
+      var chatbot = arguments[2];
       if (!isChrome() && el) {
         el.parentNode.removeChild(el);
-      } else {
+        chatbot.helpers.removeListener(listenerID);
+      } else if (el) {
+        // Initiate voice recording
         // Check that voiceRecording does not exit previously to avoid duplication
-        if (!window.voiceRecording) {
-          window.voiceRecording = new VoiceRecording(chatbot, voiceRecordingConf);
-          el.addEventListener('click', function () { window.voiceRecording.play() });
-        }
+        if (!window.voiceRecording) window.voiceRecording = new VoiceRecording(chatbot, voiceRecordingConf);
+        // Remove any previos click event to avoid duplicates
+        el.addEventListener('click', function () { window.voiceRecording.play() });
+        chatbot.helpers.removeListener(listenerID)
       }
     }
 
+    // Listenter to on elementExist voice recording button on page refresh
     chatbot.subscriptions.onReady(function (next) {
-      // Listenter to on elementExist voice recording button
+      if (chatbot.actions.getSessionData().visible) chatbot.helpers.setListener('#voice-recording', 'elementExists', activateMicro, chatbot);
+      return next();
+    });
+
+    // Listenter to on elementExist voice recording button on minimize/maximize
+    chatbot.subscriptions.onShowConversationWindow(function (next) {
       chatbot.helpers.setListener('#voice-recording', 'elementExists', activateMicro, chatbot);
       return next();
     });
 
     /**
-     *
      * Voice recording conf
-     *
      */
     var voiceRecordingConf = {
       lang: speechtoTextConf.voiceRecordingLang,
